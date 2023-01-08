@@ -7,5 +7,8 @@
 mod errors;
 mod digraph6;
 mod utils;
+mod graph6;
+mod sparse6;
 
 pub use crate::errors::{Graph6Error, Graph6Result};
+pub use self::digraph6::DiGraph;
