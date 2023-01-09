@@ -1,6 +1,6 @@
 use crate::Graph6Error;
 
-#[derive(Debug)]
+#[derive(Copy, Clone, Debug)]
 pub struct DiGraph {
     pub n: usize,
 }
@@ -12,7 +12,7 @@ fn check_line_header(bytes: &[u8]) -> Result<(), Graph6Error> {
     match bytes {
         [byte] if b'&'.eq(byte) => Ok(()),
         _ => {
-            Err(Graph6Error::InvalidDigraphHeader { except: '&' })
+            Err(Graph6Error::InvalidHeader { except: "&" })
         }
     }
 }
