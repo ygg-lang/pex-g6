@@ -4,6 +4,7 @@ use fixedbitset::FixedBitSet;
 use crate::Graph6Error;
 use crate::utils::{fill_bitset, get_size};
 
+/// A graph represented by graph6 format.
 #[derive(Clone)]
 pub struct Graph6 {
     nodes: usize,
@@ -13,10 +14,21 @@ pub struct Graph6 {
 impl Debug for Graph6 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("Graph6")
-            .field("nodes", &self.nodes)
-            .field("edges", &self.bitset.ones().count())
+            .field("nodes", &self.nodes())
+            .field("edges", &self.edges())
             .field("adjacency", &self.bitset.to_string())
             .finish()
+    }
+}
+
+impl Graph6 {
+    /// Get the number of nodes in the graph.
+    pub fn nodes(&self) -> usize {
+        self.nodes
+    }
+    /// Get the number of edges in the graph.
+    pub fn edges(&self) -> usize {
+        self.bitset.ones().count()
     }
 }
 

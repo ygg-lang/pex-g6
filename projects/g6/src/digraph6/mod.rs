@@ -1,8 +1,9 @@
 use crate::Graph6Error;
 
+/// A directed graph represented by digraph6 format.
 #[derive(Copy, Clone, Debug)]
-pub struct DiGraph {
-    pub n: usize,
+pub struct DiGraph6 {
+    nodes: usize,
 }
 
 

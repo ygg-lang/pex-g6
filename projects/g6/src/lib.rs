@@ -11,5 +11,5 @@ mod graph6;
 mod sparse6;
 
 pub use crate::errors::{Graph6Error, Graph6Result};
-pub use crate::digraph6::DiGraph;
+pub use crate::digraph6::DiGraph6;
 pub use crate::graph6::Graph6;

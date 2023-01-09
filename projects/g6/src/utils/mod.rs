@@ -34,10 +34,22 @@ pub fn write_size<W: Write>(buffer: &mut W, size: usize) -> Result<usize, Graph6
 pub fn get_size(bytes: &[u8]) -> Result<(usize, &[u8]), Graph6Error> {
     match bytes {
         [b'~', b'~', x1, x2, x3, x4, x5, x6, rest @ ..] => {
-            todo!()
+            let x1 = (*x1 - b'?') as usize;
+            let x2 = (*x2 - b'?') as usize;
+            let x3 = (*x3 - b'?') as usize;
+            let x4 = (*x4 - b'?') as usize;
+            let x5 = (*x5 - b'?') as usize;
+            let x6 = (*x6 - b'?') as usize;
+            let size = x1 << 30 | x2 << 24 | x3 << 18 | x4 << 12 | x5 << 6 | x6;
+            Ok((size, rest))
         }
+        // (x1 - 63) * 2^12 + (x2 - 63) * 2^6 + (x3 - 63)
         [b'~', x1, x2, x3, rest @ ..] => {
-            todo!()
+            let x1 = (*x1 - b'?') as usize;
+            let x2 = (*x2 - b'?') as usize;
+            let x3 = (*x3 - b'?') as usize;
+            let size = x1 << 12 | x2 << 6 | x3;
+            Ok((size, rest))
         }
         [x0, rest @ ..] => {
             let size = *x0 - b'?';
@@ -46,7 +58,6 @@ pub fn get_size(bytes: &[u8]) -> Result<(usize, &[u8]), Graph6Error> {
         _ => Err(Graph6Error::InvalidSize),
     }
 }
-
 
 pub fn base64_to_base256() {
     todo!()

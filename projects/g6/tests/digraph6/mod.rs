@@ -1,4 +1,4 @@
-use g6::DiGraph;
+use g6::DiGraph6;
 
 #[test]
 fn test_header() {
