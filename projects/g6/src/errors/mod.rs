@@ -8,7 +8,7 @@ pub enum Graph6Error {
         except: &'static str,
     },
     GraphTooLarge,
-    InvalidSizeChar,
+    InvalidSize,
     UnknownError,
     OutOfRange {
         position: usize,
@@ -16,3 +16,8 @@ pub enum Graph6Error {
     },
 }
 
+impl From<std::io::Error> for Graph6Error {
+    fn from(_: std::io::Error) -> Self {
+        Graph6Error::UnknownError
+    }
+}

@@ -1,9 +1,23 @@
+use std::fmt::{Debug, Formatter};
 use std::str::FromStr;
+use fixedbitset::FixedBitSet;
 use crate::Graph6Error;
+use crate::utils::{fill_bitset, get_size};
 
-#[derive(Copy, Debug, Clone)]
+#[derive(Clone)]
 pub struct Graph6 {
-    rank: usize,
+    nodes: usize,
+    bitset: FixedBitSet,
+}
+
+impl Debug for Graph6 {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("Graph6")
+            .field("nodes", &self.nodes)
+            .field("edges", &self.bitset.ones().count())
+            .field("adjacency", &self.bitset.to_string())
+            .finish()
+    }
 }
 
 impl FromStr for Graph6 {
@@ -11,8 +25,12 @@ impl FromStr for Graph6 {
 
     fn from_str(s: &str) -> Result<Self, Graph6Error> {
         let bytes = remove_head(s.as_bytes());
-        println!("{:?}", bytes);
-        todo!()
+        let (nodes, bytes) = get_size(bytes)?;
+        let bitset = fill_bitset(bytes, nodes * (nodes - 1) / 2)?;
+        Ok(Graph6 {
+            nodes,
+            bitset,
+        })
     }
 }
 
