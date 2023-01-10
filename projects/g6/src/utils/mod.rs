@@ -1,22 +1,23 @@
 #![allow(dead_code, unused)]
 
-use std::io::{Write};
-use fixedbitset::FixedBitSet;
 use crate::Graph6Error;
-
+use fixedbitset::FixedBitSet;
+use std::io::Write;
 
 /// Write the size of the graph
 pub fn write_size<W: Write>(buffer: &mut W, size: usize) -> Result<usize, Graph6Error> {
     if size < 63 {
         buffer.write(&[(size + 63) as u8])?;
         Ok(1)
-    } else if size < 258048 {
+    }
+    else if size < 258048 {
         let x1 = 63 + (size >> 12) as u8;
         let x2 = 63 + (size >> 06) as u8;
         let x3 = 63 + (size >> 00) as u8;
         buffer.write(&[126, x1, x2, x3])?;
         Ok(4)
-    } else if size < 68719476736 {
+    }
+    else if size < 68719476736 {
         let x1 = 63 + (size >> 30) as u8;
         let x2 = 63 + (size >> 24) as u8;
         let x3 = 63 + (size >> 18) as u8;
@@ -25,14 +26,13 @@ pub fn write_size<W: Write>(buffer: &mut W, size: usize) -> Result<usize, Graph6
         let x6 = 63 + (size >> 00) as u8;
         buffer.write(&[126, 126, x1, x2, x3, x4, x5, x6])?;
         Ok(8)
-    } else {
+    }
+    else {
         Err(Graph6Error::GraphTooLarge)
     }
 }
 
-
 /// Get the size of the graph
-///
 pub fn get_size(bytes: &[u8]) -> Result<(usize, &[u8]), Graph6Error> {
     match bytes {
         [b'~', b'~', x1, x2, x3, x4, x5, x6, rest @ ..] => {
@@ -54,8 +54,8 @@ pub fn get_size(bytes: &[u8]) -> Result<(usize, &[u8]), Graph6Error> {
             Ok((size, rest))
         }
         [x0, rest @ ..] => {
-            let size = *x0 - b'?';
-            Ok((size as usize, rest))
+            let x0 = (*x0 - b'?') as usize;
+            Ok((x0, rest))
         }
         _ => Err(Graph6Error::InvalidSize),
     }
@@ -64,7 +64,6 @@ pub fn get_size(bytes: &[u8]) -> Result<(usize, &[u8]), Graph6Error> {
 pub fn base64_to_base256() {
     todo!()
 }
-
 
 pub fn base256_to_base64(base256: &[u8]) -> Result<Vec<u8>, Graph6Error> {
     let mut base64 = Vec::with_capacity(base256.len() * 4 / 3);

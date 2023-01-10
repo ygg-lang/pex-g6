@@ -1,8 +1,12 @@
-use std::fmt::{Debug, Formatter};
-use std::str::FromStr;
+use crate::{
+    utils::{fill_bitset, get_size},
+    Graph6Error,
+};
 use fixedbitset::FixedBitSet;
-use crate::Graph6Error;
-use crate::utils::{fill_bitset, get_size};
+use std::{
+    fmt::{Debug, Formatter},
+    str::FromStr,
+};
 
 /// A directed graph represented by digraph6 format.
 #[derive(Clone)]
@@ -28,10 +32,7 @@ impl FromStr for DiGraph6 {
         let bytes = remove_head(s.as_bytes())?;
         let (nodes, bytes) = get_size(bytes)?;
         let bitset = fill_bitset(bytes, nodes * nodes)?;
-        Ok(DiGraph6 {
-            nodes,
-            bitset,
-        })
+        Ok(DiGraph6 { nodes, bitset })
     }
 }
 
@@ -50,10 +51,11 @@ impl DiGraph6 {
 fn remove_head(bytes: &[u8]) -> Result<&[u8], Graph6Error> {
     if bytes.starts_with(b">>digraph6<<&") {
         Ok(&bytes[13..])
-    } else if bytes.starts_with(b"&") {
+    }
+    else if bytes.starts_with(b"&") {
         Ok(&bytes[1..])
-    } else {
+    }
+    else {
         Err(Graph6Error::InvalidHeader { except: "&" })
     }
 }
-

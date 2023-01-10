@@ -1,31 +1,37 @@
-Rust Template Project
-=====================
+# G6
 
-Rust template project for monorepo
+Pure rust parser for graph6, digraph6 formats.
 
-## Change the initial commit
+## Import
 
-```shell
-git commit --amend --message "🎂 Project initialized!" --date "2012-12-12"
+- import undirected graph6 from text
+
+```rust
+#[test]
+fn import_graph6() {
+    let graph = Graph6::from_str("E?Bw").unwrap();
+    assert_eq!(graph.nodes(), 5);
+    assert_eq!(graph.edges(), 6);
+}
 ```
 
-## Emoji Comment
+- import undirected graph6 from file
 
-| Emoji  | Meaning                      |  
-|--------|------------------------------|  
-| 🎂     | Project initialized!         |  
-| 🎉     | Release new version          |  
-| 🧪🔮   | Experimental code            |   
-| 🔧🐛🐞 | Bug fix                      |  
-| 🔒     | Security fix                 |  
-| 🐣🐤🐥 | Add feature                  |  
-| 📝🎀   | Documentation                |  
-| 🚀     | Performance improve!         |  
-| 🚧     | Work in progress             |  
-| 🚨     | Test coverage improve!       |  
-| 🚥     | CI improve!                  |  
-| 🔥     | Remove code or files         |
-| 🧹     | Code refactor                |
-| 📈     | Add analytics or branch code |
-| 🤖     | Automation fix               |
-| 📦     | Update dependencies          |
+```rust
+#[test]
+fn import_digraph6() {
+    let digraph = DiGraph6::from_str("&B|o").unwrap();
+    assert_eq!(digraph.nodes(), 3);
+    assert_eq!(digraph.edges(), 7);
+}
+```
+
+## Export
+
+- to text format
+
+- to wolfram mathematica
+
+## Test Cases
+
+http://users.cecs.anu.edu.au/~bdm/data

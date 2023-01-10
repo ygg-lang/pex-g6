@@ -1,13 +1,15 @@
 [package]
 name = "g6"
-version = "0.0.2"
+version = "0.1.0"
 authors = ["Aster <192607617@qq.com>"]
-description = "graph6 import"
-repository = "https://github.com/oovm/sub_projects"
-documentation = "https://docs.rs/sub_projects"
+description = "import/export graph6 format"
+repository = "https://github.com/ygg-lang/pex-g6"
+documentation = "https://docs.rs/g6"
 readme = "Readme.md"
 license = "MPL-2.0"
 edition = "2021"
+keywords = ["graph", "graph6", "parser"]
+categories = ["parsing"]
 exclude = ["package.json", "tests/**"]
 
 [dependencies]
