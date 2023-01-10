@@ -10,6 +10,6 @@ mod utils;
 mod graph6;
 mod sparse6;
 
-pub use crate::errors::{Graph6Error, Graph6Result};
+pub use crate::errors::{Graph6Error};
 pub use crate::digraph6::DiGraph6;
 pub use crate::graph6::Graph6;

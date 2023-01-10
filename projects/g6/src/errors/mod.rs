@@ -1,17 +1,24 @@
-pub type Graph6Result<T> = Result<T, Graph6Error>;
-
-
+/// Errors that can occur when parsing a graph6 string.
 #[derive(Debug, Copy, Clone)]
 pub enum Graph6Error {
+    /// The given adjacency matrix is invalid.
     InvalidAdjacencyMatrix,
+    /// The given header is invalid.
     InvalidHeader {
+        /// The expected header.
         except: &'static str,
     },
+    /// The given graph is too large.
     GraphTooLarge,
+    /// The given graph is too small.
     InvalidSize,
+    /// The given graph is too large.
     UnknownError,
+    /// The given graph is too large.
     OutOfRange {
+        /// The given position.
         position: usize,
+        /// The given maximum.
         max: usize,
     },
 }

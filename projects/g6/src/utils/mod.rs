@@ -1,28 +1,30 @@
+#![allow(dead_code, unused)]
+
 use std::io::{Write};
 use fixedbitset::FixedBitSet;
 use crate::Graph6Error;
 
-///   如果 0 <= n <= 62，则将 N(n) 定义为单字节 n+63。
-//   如果 63 <= n <= 258047，定义 N(n) 为四个字节
-//       126 R(x)，其中 x 是 n 的 bigendian 18 位二进制形式。
-//   如果 258048 <= n <= 68719476735，则将 N(n) 定义为八个字节
-//       126 126 R(x)，其中 x 是 n 的 bigendian 36 位二进制形式。
-//
-//   示例：N(30) = 93
-//              N(12345) = N(000011 000000 111001) = 126 66 63 120
-//              N(460175067) = N(000000 011011 011011 011011 011011 011011)
-//                           = 126 126 63 90 90 90 90 90
+
+/// Write the size of the graph
 pub fn write_size<W: Write>(buffer: &mut W, size: usize) -> Result<usize, Graph6Error> {
     if size < 63 {
         buffer.write(&[(size + 63) as u8])?;
         Ok(1)
     } else if size < 258048 {
-        buffer.write(&[126])?;
-        todo!()
+        let x1 = 63 + (size >> 12) as u8;
+        let x2 = 63 + (size >> 06) as u8;
+        let x3 = 63 + (size >> 00) as u8;
+        buffer.write(&[126, x1, x2, x3])?;
+        Ok(4)
     } else if size < 68719476736 {
-        // buffer.push(126);
-        // buffer.push(126);
-        todo!()
+        let x1 = 63 + (size >> 30) as u8;
+        let x2 = 63 + (size >> 24) as u8;
+        let x3 = 63 + (size >> 18) as u8;
+        let x4 = 63 + (size >> 12) as u8;
+        let x5 = 63 + (size >> 06) as u8;
+        let x6 = 63 + (size >> 00) as u8;
+        buffer.write(&[126, 126, x1, x2, x3, x4, x5, x6])?;
+        Ok(8)
     } else {
         Err(Graph6Error::GraphTooLarge)
     }

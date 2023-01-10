@@ -14,7 +14,7 @@ exclude = ["package.json", "tests/**"]
 petgraph = "0.6.3"
 
 [dependencies.g6]
-version = "0.0.1"
+version = "0.0.2"
 path = "../g6"
 
 [dev-dependencies]
