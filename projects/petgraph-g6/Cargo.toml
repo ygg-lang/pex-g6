@@ -2,12 +2,14 @@
 name = "petgraph-g6"
 version = "0.0.0"
 authors = ["Aster <192607617@qq.com>"]
-description = "graph6 import"
-repository = "https://github.com/oovm/sub_projects"
-documentation = "https://docs.rs/sub_projects"
+description = "import graph6 in petgraph"
+repository = "https://github.com/ygg-lang/pex-g6"
+documentation = "https://docs.rs/petgraph-g6"
 readme = "Readme.md"
 license = "MPL-2.0"
 edition = "2021"
+categories = ["parsing"]
+keywords = ["graph", "graph6", "parser"]
 exclude = ["package.json", "tests/**"]
 
 [dependencies]

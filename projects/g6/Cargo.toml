@@ -8,12 +8,11 @@ documentation = "https://docs.rs/g6"
 readme = "Readme.md"
 license = "MPL-2.0"
 edition = "2021"
-keywords = ["graph", "graph6", "parser"]
 categories = ["parsing"]
+keywords = ["graph", "graph6", "parser"]
 exclude = ["package.json", "tests/**"]
 
 [dependencies]
-wolfram_wxf = { version = "0.6.6", optional = true }
 fixedbitset = "0.4.2"
 
 [dev-dependencies]

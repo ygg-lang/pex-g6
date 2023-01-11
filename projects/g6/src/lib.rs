@@ -4,12 +4,10 @@
 #![doc(html_logo_url = "https://raw.githubusercontent.com/oovm/shape-rs/dev/projects/images/Trapezohedron.svg")]
 #![doc(html_favicon_url = "https://raw.githubusercontent.com/oovm/shape-rs/dev/projects/images/Trapezohedron.svg")]
 
-mod errors;
 mod digraph6;
-mod utils;
+mod errors;
 mod graph6;
 mod sparse6;
+mod utils;
 
-pub use crate::errors::{Graph6Error};
-pub use crate::digraph6::DiGraph6;
-pub use crate::graph6::Graph6;
+pub use crate::{digraph6::DiGraph6, errors::Graph6Error, graph6::Graph6, sparse6::Sparse6};
