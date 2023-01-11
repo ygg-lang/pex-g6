@@ -1,6 +1,6 @@
 # G6
 
-Pure rust parser for graph6, digraph6 formats.
+Pure rust parser for `graph6`, `digraph6` and `sparse6` formats.
 
 ## Import
 
@@ -15,7 +15,7 @@ fn import_graph6() {
 }
 ```
 
-- import undirected graph6 from file
+- import undirected graph6 from text
 
 ```rust
 #[test]
@@ -26,11 +26,26 @@ fn import_digraph6() {
 }
 ```
 
+- import large sparse6 from text
+
+```rust
+#[test]
+fn import_sparse6() {
+    let digraph = Sparse6::from_str(":Fa@x^").unwrap();
+    assert_eq!(digraph.nodes(), 7);
+    assert_eq!(digraph.edges(), 4);
+}
+```
+
 ## Export
 
 - to text format
 
+todo
+
 - to wolfram mathematica
+
+todo
 
 ## Test Cases
 

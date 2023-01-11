@@ -46,17 +46,17 @@ impl Iterator for Sparse6Edges {
     type Item = Sparse6Edge;
 
     fn next(&mut self) -> Option<Self::Item> {
-        if self.index > self.bits.len() {
+        if self.index >= self.bits.len() {
             return None;
         }
-        self.index += 1;
         let head = self.bits[self.index];
+        self.index += 1;
         let mut x = 0;
-        for i in 0..self.group {
-            self.index += 1;
+        for i in (0..self.group).rev() {
             if self.bits[self.index] {
                 x |= 1 << i;
             }
+            self.index += 1;
         }
         Some(Sparse6Edge { b: head, x })
     }
@@ -68,20 +68,27 @@ impl FromStr for Sparse6 {
     fn from_str(s: &str) -> Result<Self, Graph6Error> {
         let bytes = remove_head(s.as_bytes())?;
         let (nodes, bytes) = get_size(bytes)?;
-        let bitset = fill_bitset(bytes, bytes.len() * 8 - 1)?;
+        let bitset = fill_bitset(bytes, bytes.len() * 8 - 8)?;
         let need_bits = (nodes - 1).next_power_of_two().trailing_zeros();
-        println!("bits: {}", bitset);
+        // println!("bits: {}", bitset);
         let iter = Sparse6Edges { bits: bitset, group: need_bits as usize, index: 0 };
-        let edges: Vec<_> = iter.collect();
-        println!("edges: {:?}", edges);
-        Ok(Sparse6 { nodes, edges: vec![] })
+        let mut edges = vec![];
+        let mut v = 0;
+        for edge in iter {
+            if edge.b {
+                v += 1;
+            }
+            if edge.x > v {
+                v = edge.x;
+            }
+            else {
+                edges.push((edge.x, v));
+            }
+        }
+        let takes = edges.len() - 1;
+        let edges = edges.into_iter().take(takes).collect();
+        Ok(Sparse6 { nodes, edges })
     }
-}
-
-fn read_byte(input: &[u8]) -> Result<&[u8], Graph6Error> {
-    let head = input.get(0).unwrap();
-    println!("head: {} -> {}", head, head - 63);
-    todo!()
 }
 
 impl Sparse6 {
@@ -89,10 +96,10 @@ impl Sparse6 {
     pub fn nodes(&self) -> usize {
         self.nodes
     }
-    // /// Get the number of edges in the graph.
-    // pub fn edges(&self) -> usize {
-    //     self.bitset.ones().count()
-    // }
+    /// Get the number of edges in the graph.
+    pub fn edges(&self) -> usize {
+        self.edges.len()
+    }
 }
 
 /// 必须是 & 开头
